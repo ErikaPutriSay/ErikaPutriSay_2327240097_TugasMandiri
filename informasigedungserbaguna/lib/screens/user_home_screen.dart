@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:informasigedungserbaguna/models/post.dart';
-import 'package:informasigedungserbaguna/services/post_service.dart';
+import 'package:informasigedungserbaguna/services/post_services.dart';
 import 'package:informasigedungserbaguna/screens/detail_screen.dart';
-import 'package:informasigedungserbaguna/screens/sign_in_screen.dart';
-
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -55,7 +52,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     }
   }
 
-  // 2. Menghitung jarak numerik (meter) antara posisi user dengan koordinat Coffee Shop
+  // 2. Menghitung jarak numerik (meter) antara posisi user dengan koordinat gedung serbaguna
   double _getRawDistance(String? latStr, String? lngStr) {
     if (_currentPosition == null || latStr == null || lngStr == null)
       return double.maxFinite;
@@ -86,7 +83,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: const Text(
-          "Coffee Shop",
+          "Gedung Serbaguna",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.brown,
@@ -96,7 +93,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ? const Center(child: CircularProgressIndicator(color: Colors.brown))
           : Column(
               children: [
-                // Kolom Pencarian Nama Kedai Kopi
+                // Kolom Pencarian Nama Gedung Serbaguna
                 Container(
                   color: Colors.white,
                   padding: const EdgeInsets.all(12),
@@ -104,7 +101,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     onChanged: (val) =>
                         setState(() => _searchQuery = val.toLowerCase()),
                     decoration: InputDecoration(
-                      hintText: "Cari kedai kopi...",
+                      hintText: "Cari gedung serbaguna...",
                       prefixIcon: const Icon(Icons.search, color: Colors.brown),
                       filled: true,
                       fillColor: Colors.grey.shade100,
@@ -117,7 +114,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   ),
                 ),
 
-                // Stream data Coffee Shop global dari Firebase
+                // Stream data gedung serbaguna global dari Firebase
                 Expanded(
                   child: StreamBuilder<List<Post>>(
                     stream: PostService.getPostListByCategory(''),
@@ -136,7 +133,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
                       var posts = snapshot.data ?? [];
 
-                      // Filter pencarian teks nama kedai kopi
+                      // Filter pencarian teks nama gedung serbaguna
                       if (_searchQuery.isNotEmpty) {
                         posts = posts
                             .where(
@@ -157,7 +154,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       if (posts.isEmpty) {
                         return const Center(
                           child: Text(
-                            "Tidak ada coffee shop ditemukan.",
+                            "Tidak ada gedung serbaguna ditemukan.",
                             style: TextStyle(color: Colors.grey),
                           ),
                         );
@@ -192,7 +189,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Foto Pratinjau Utama Kedai Kopi
+                                  // Foto Pratinjau Utama Gedung Serbaguna
                                   Stack(
                                     children: [
                                       if (post.image != null &&
@@ -273,7 +270,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          post.name ?? 'Coffee Shop',
+                                          post.name ?? 'Gedung Serbaguna',
                                           style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,

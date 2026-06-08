@@ -68,7 +68,8 @@ class PostService {
               : null,
           latitude: data['latitude'],
           longitude: data['longitude'],
-          operationalHours: data['operationalHours'] ?? data['operational_hours'],
+          operationalHours:
+              data['operationalHours'] ?? data['operational_hours'],
           userId: data['user_id'],
           userFullName: data['user_full_name'],
         );
@@ -99,7 +100,8 @@ class PostService {
               : null,
           latitude: data['latitude'],
           longitude: data['longitude'],
-          operationalHours: data['operationalHours'] ?? data['operational_hours'],
+          operationalHours:
+              data['operationalHours'] ?? data['operational_hours'],
           userId: data['user_id'],
           userFullName: data['user_full_name'],
         );
@@ -111,12 +113,12 @@ class PostService {
 
   static Future<void> createPost(Post newPost) async {}
 
-  static Future<void> addReviewToCoffeeShop({
-    required String coffeeShopId,
+  static Future<void> addReviewToGedungSerbaguna({
+    required String gedungSerbagunaId,
     required Map<String, Object?> reviewData,
   }) async {
     final reviewCollection = _postsCollection
-        .doc(coffeeShopId)
+        .doc(gedungSerbagunaId)
         .collection('reviews');
 
     final Map<String, dynamic> reviewToSave = {
@@ -127,17 +129,17 @@ class PostService {
     await reviewCollection.add(reviewToSave);
   }
 
-  static Stream<List<Map<String, dynamic>>> getReviewsForCoffeeShop(
-    String coffeeShopId,
+  static Stream<List<Map<String, dynamic>>> getReviewsForGedungSerbaguna(
+    String gedungSerbagunaId,
   ) {
     return _postsCollection
-        .doc(coffeeShopId)
+        .doc(gedungSerbagunaId)
         .collection('reviews')
         .orderBy('created_at', descending: true)
         .snapshots()
         .map((snapshot) {
           return snapshot.docs.map((doc) {
-            return doc.data() as Map<String, dynamic>;
+            return doc.data();
           }).toList();
         });
   }
