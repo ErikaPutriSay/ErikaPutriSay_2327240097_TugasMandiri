@@ -44,11 +44,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
   // Kategori disesuaikan dengan tipe atau keunggulan gedung serbaguna
   List<String> get categories {
     return [
-      'Indoor AC (WFC Friendly)',
-      'Outdoor / Garden Vibe',
-      'Minimalis / Instagramable',
-      'Traditional / Manual Brew',
-      '24 Jam',
+      'Kapasitas Besar / Serbaguna',
+      'Ruangan Indoor Ber-AC',
+      'Parkir Luas',
+      'Fasilitas Audio Visual',
+      'Dekat Jalan Utama / Mudah Dijangkau',
+      'Paket Pernikahan & Acara',
       'Lainnya',
     ];
   }
@@ -464,7 +465,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               {
                 "text":
                     "Berdasarkan foto gedung serbaguna ini, identifikasi suasana utama "
-                    "dari daftar berikut:Indoor AC (Luxury / Formal), Outdoor / Garden Party Vibe, Kapasitas Besar ( > 1000 Pax), Wedding & Event Package Available, atau Lainnya. "
+                    "dari daftar berikut: Kapasitas Besar / Serbaguna, Ruangan Indoor Ber-AC, Parkir Luas, Fasilitas Audio Visual, Dekat Jalan Utama / Mudah Dijangkau, Paket Pernikahan & Acara, atau Lainnya. "
                     "Buat deskripsi promosi singkat dan estetik yang menarik bagi pengunjung di Palembang untuk datang ke gedung serbaguna ini. "
                     "Fokus pada interior/eksterior yang terlihat.\n\n"
                     "Format output yang harus persis seperti ini :\n"
