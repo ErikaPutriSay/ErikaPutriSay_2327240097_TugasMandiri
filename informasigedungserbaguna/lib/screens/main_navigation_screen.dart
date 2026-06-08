@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:informasigedungserbaguna/providers/app_provider.dart';
 import 'package:informasigedungserbaguna/screens/user_home_screen.dart';
 import 'package:informasigedungserbaguna/screens/favorite_screen.dart';
 import 'package:informasigedungserbaguna/screens/profile_screen.dart';
@@ -21,6 +23,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish =
+        Provider.of<AppProvider>(context).locale.languageCode == 'en';
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -30,20 +34,22 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: const Color.fromARGB(255, 161, 158, 157),
-        unselectedItemColor: const Color.fromARGB(255, 124, 122, 122),
-        items: const [
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(
+          context,
+        ).colorScheme.onSurface.withOpacity(0.7),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: isEnglish ? 'Home' : 'Beranda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
+            icon: const Icon(Icons.favorite),
+            label: isEnglish ? 'Favorite' : 'Favorit',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: const Icon(Icons.person),
+            label: isEnglish ? 'Profile' : 'Profil',
           ),
         ],
       ),

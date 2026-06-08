@@ -1,52 +1,77 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:informasigedungserbaguna/models/post.dart';
+import 'package:informasigedungserbaguna/providers/app_provider.dart';
 import 'package:informasigedungserbaguna/screens/detail_screen.dart';
 import 'package:informasigedungserbaguna/services/favorite_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final isEnglish = appProvider.locale.languageCode == 'en';
+    final theme = Theme.of(context);
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Gedung Serbaguna Favorit',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          isEnglish
+              ? 'Favorite Multipurpose Halls'
+              : 'Gedung Serbaguna Favorit',
+          style: TextStyle(
+            color: theme.colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: Colors.brown,
+        backgroundColor: theme.colorScheme.primary,
       ),
       body: currentUser == null
-          ? const Center(
+          ? Center(
               child: Text(
-                'Silakan login terlebih dahulu untuk melihat favorit.',
+                isEnglish
+                    ? 'Please sign in first to view favorites.'
+                    : 'Silakan login terlebih dahulu untuk melihat favorit.',
+                style: theme.textTheme.bodyMedium,
               ),
             )
           : StreamBuilder<List<Post>>(
               stream: FavoriteService.getFavoritePosts(currentUser.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: Colors.brown),
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: theme.colorScheme.primary,
+                    ),
                   );
                 }
 
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text('Terjadi kesalahan: ${snapshot.error}'),
+                    child: Text(
+                      isEnglish
+                          ? 'An error occurred: ${snapshot.error}'
+                          : 'Terjadi kesalahan: ${snapshot.error}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
                   );
                 }
 
                 final favoritePosts = snapshot.data ?? [];
                 if (favoritePosts.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      'Belum ada gedung serbaguna favorit. Tambahkan dari halaman detail.',
+                      isEnglish
+                          ? 'No favorite multipurpose halls yet. Add one from the detail page.'
+                          : 'Belum ada gedung serbaguna favorit. Tambahkan dari halaman detail.',
+                      style: theme.textTheme.bodyMedium,
                     ),
                   );
                 }

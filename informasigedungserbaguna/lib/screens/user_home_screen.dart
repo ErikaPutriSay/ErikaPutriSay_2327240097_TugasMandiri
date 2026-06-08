@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:informasigedungserbaguna/models/post.dart';
+import 'package:informasigedungserbaguna/providers/app_provider.dart';
 import 'package:informasigedungserbaguna/services/post_services.dart';
 import 'package:informasigedungserbaguna/screens/detail_screen.dart';
 
@@ -79,32 +81,44 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isEnglish =
+        Provider.of<AppProvider>(context).locale.languageCode == 'en';
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-          "Gedung Serbaguna",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          isEnglish ? 'Multipurpose Hall' : 'Gedung Serbaguna',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.onPrimary,
       ),
       body: _isLoadingLocation
-          ? const Center(child: CircularProgressIndicator(color: Colors.brown))
+          ? Center(
+              child: CircularProgressIndicator(
+                color: theme.colorScheme.primary,
+              ),
+            )
           : Column(
               children: [
                 // Kolom Pencarian Nama Gedung Serbaguna
                 Container(
-                  color: Colors.white,
+                  color: theme.colorScheme.surface,
                   padding: const EdgeInsets.all(12),
                   child: TextField(
                     onChanged: (val) =>
                         setState(() => _searchQuery = val.toLowerCase()),
                     decoration: InputDecoration(
-                      hintText: "Cari gedung serbaguna...",
-                      prefixIcon: const Icon(Icons.search, color: Colors.brown),
+                      hintText: isEnglish
+                          ? 'Search multipurpose halls...'
+                          : 'Cari gedung serbaguna...',
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: theme.colorScheme.primary,
+                      ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor: theme.colorScheme.surfaceVariant,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -120,14 +134,21 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     stream: PostService.getPostListByCategory(''),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(color: Colors.brown),
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: theme.colorScheme.primary,
+                          ),
                         );
                       }
 
                       if (snapshot.hasError) {
                         return Center(
-                          child: Text("Terjadi kesalahan: ${snapshot.error}"),
+                          child: Text(
+                            isEnglish
+                                ? 'An error occurred: ${snapshot.error}'
+                                : 'Terjadi kesalahan: ${snapshot.error}',
+                            style: TextStyle(color: theme.colorScheme.error),
+                          ),
                         );
                       }
 
@@ -152,10 +173,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       });
 
                       if (posts.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            "Tidak ada gedung serbaguna ditemukan.",
-                            style: TextStyle(color: Colors.grey),
+                            isEnglish
+                                ? 'No multipurpose halls found.'
+                                : 'Tidak ada gedung serbaguna ditemukan.',
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         );
                       }
