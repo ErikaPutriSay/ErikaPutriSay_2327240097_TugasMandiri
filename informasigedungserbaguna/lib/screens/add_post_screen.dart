@@ -464,7 +464,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               {
                 "text":
                     "Berdasarkan foto gedung serbaguna ini, identifikasi suasana utama "
-                    "dari daftar berikut: Indoor AC (WFC Friendly), Outdoor / Garden Vibe, Minimalis / Instagramable, Traditional / Manual Brew, atau Lainnya. "
+                    "dari daftar berikut:Indoor AC (Luxury / Formal), Outdoor / Garden Party Vibe, Kapasitas Besar ( > 1000 Pax), Wedding & Event Package Available, atau Lainnya. "
                     "Buat deskripsi promosi singkat dan estetik yang menarik bagi pengunjung di Palembang untuk datang ke gedung serbaguna ini. "
                     "Fokus pada interior/eksterior yang terlihat.\n\n"
                     "Format output yang harus persis seperti ini :\n"
@@ -815,7 +815,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 decoration: const InputDecoration(
                   labelText: 'Komentar Ulasan',
                   hintText:
-                      'Bagikan pengalaman Anda mengenai rasa kopi, pelayanan, atau tempat ini...',
+                      'Bagikan pengalaman Anda mengenai kenyaman, pelayanan, atau tempat ini...',
                   border: OutlineInputBorder(),
                 ),
               ),
